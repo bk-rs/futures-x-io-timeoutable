@@ -1,0 +1,29 @@
+[package]
+name = "futures-x-io-timeoutable"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+description = "Timeout ext for futures io and tokio io."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/bk-rs/futures-x-io-timeoutable"
+homepage = "https://github.com/bk-rs/futures-x-io-timeoutable"
+documentation = "https://docs.rs/futures-x-io-timeoutable"
+keywords = []
+categories = ["asynchronous"]
+readme = "README.md"
+
+[features]
+futures_io = ["futures-x-io/futures_io"]
+tokio_io = ["futures-x-io/tokio_io"]
+
+[dependencies]
+cfg-if = { version = "0.1", default-features = false, features = [] }
+futures-timer = { version = "3.0", default-features = false, features = [] }
+
+futures-x-io = { version = "0.1", default-features = false, features = [], optional = true }
+
+[dev-dependencies]
+futures-lite = { version = "0.1", default-features = false, features = [] }
+async-io = { version = "0.1", default-features = false, features = [] }
+
+tokio = { version = "0.2", default-features = false, features = ["net", "stream", "macros"] }
