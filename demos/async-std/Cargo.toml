@@ -1,0 +1,9 @@
+[package]
+name = "futures-x-io-timeoutable-demo-async-std"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+futures-x-io-timeoutable = { path = "../..", version = "0.1", features = ["futures_io"] }
+async-std = { version = "1.6", default-features = false, features = ["default", "attributes"] }

@@ -27,3 +27,9 @@ futures-lite = { version = "0.1", default-features = false, features = [] }
 async-io = { version = "0.1", default-features = false, features = [] }
 
 tokio = { version = "0.2", default-features = false, features = ["net", "stream", "macros"] }
+
+[workspace]
+members = [
+    "demos/async-std",
+    "demos/tokio",
+]

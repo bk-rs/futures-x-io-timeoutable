@@ -1,0 +1,9 @@
+[package]
+name = "futures-x-io-timeoutable-demo-tokio"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+futures-x-io-timeoutable = { path = "../..", version = "0.1", features = ["tokio_io"] }
+tokio = { version = "0.2", default-features = false, features = ["macros"] }
