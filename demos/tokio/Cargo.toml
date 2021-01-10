@@ -6,4 +6,4 @@ edition = "2018"
 
 [dependencies]
 futures-x-io-timeoutable = { path = "../..", version = "0.1", features = ["tokio_io"] }
-tokio = { version = "0.2", default-features = false, features = ["macros"] }
+tokio = { version = "~0.2", default-features = false, features = ["macros"] }
