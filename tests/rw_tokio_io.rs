@@ -20,10 +20,7 @@ mod rw_tokio02_io_tests {
             let addr = listener.local_addr()?;
 
             let mut tcp_stream_c = TcpStream::connect(addr).await?;
-            let (mut tcp_stream_s, _) = listener
-                .accept()
-                .await
-                .expect("Accept failed");
+            let (mut tcp_stream_s, _) = listener.accept().await.expect("Accept failed");
 
             tcp_stream_s
                 .write_with_timeout(b"foo", Duration::from_secs(1))

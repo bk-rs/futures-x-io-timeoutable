@@ -50,7 +50,7 @@ impl<R: AsyncRead + ?Sized + Unpin> Future for ReadWithTimeout<'_, R> {
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = &mut *self;
-        
+
         cfg_if::cfg_if! {
             if #[cfg(feature = "tokio_io")] {
                 // https://github.com/tokio-rs/tokio/blob/tokio-1.0.1/tokio/src/io/util/read.rs#L51-L53
