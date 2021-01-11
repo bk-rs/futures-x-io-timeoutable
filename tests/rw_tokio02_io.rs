@@ -1,32 +1,31 @@
 #[cfg(all(
-    feature = "futures_io",
-    not(feature = "tokio02_io"),
+    not(feature = "futures_io"),
+    feature = "tokio02_io",
     not(feature = "tokio_io")
 ))]
-mod rw_futures_io_tests {
+mod rw_tokio_io_tests {
     use std::io;
-    use std::net::{TcpListener, TcpStream};
     use std::time::{Duration, Instant};
 
-    use async_io::Async;
-    use futures_lite::future::block_on;
+    use tokio02::net::{TcpListener, TcpStream};
+    use tokio02::runtime::Runtime;
+    use tokio02::stream::StreamExt;
 
     use futures_x_io_timeoutable::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
 
     #[test]
     fn simple() -> io::Result<()> {
-        block_on(async {
-            let listener = TcpListener::bind("127.0.0.1:0")?;
+        let mut rt = Runtime::new().unwrap();
+        rt.block_on(async {
+            let mut listener = TcpListener::bind("127.0.0.1:0").await?;
             let addr = listener.local_addr()?;
 
-            let tcp_stream_c = TcpStream::connect(addr)?;
-            let tcp_stream_s = listener
+            let mut tcp_stream_c = TcpStream::connect(addr).await?;
+            let mut tcp_stream_s = listener
                 .incoming()
                 .next()
+                .await
                 .expect("Get next incoming failed")?;
-
-            let mut tcp_stream_c = Async::<TcpStream>::new(tcp_stream_c)?;
-            let mut tcp_stream_s = Async::<TcpStream>::new(tcp_stream_s)?;
 
             tcp_stream_s
                 .write_with_timeout(b"foo", Duration::from_secs(1))
