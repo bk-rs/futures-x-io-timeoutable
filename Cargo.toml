@@ -15,14 +15,12 @@ readme = "README.md"
 [features]
 futures_io = ["futures-x-io/futures_io"]
 tokio02_io = ["futures-x-io/tokio02_io"]
-tokio_io = ["futures-x-io/tokio_io", "tokio"]
+tokio_io = ["futures-x-io/tokio_io"]
 
 [dependencies]
 futures-timer = { version = "3.0", default-features = false, features = [] }
 
-futures-x-io = { version = "0.2", default-features = false, features = [], optional = true }
-
-tokio = { version = "1.0", default-features = false, features = [], optional = true }
+futures-x-io = { version = "0.2.2", default-features = false, features = [], optional = true }
 
 [dev-dependencies]
 futures-lite = { version = "1.11", default-features = false, features = [] }

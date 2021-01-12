@@ -3,7 +3,7 @@
     not(feature = "tokio02_io"),
     feature = "tokio_io"
 ))]
-mod rw_tokio02_io_tests {
+mod rw_tokio_io_tests {
     use std::io;
     use std::time::{Duration, Instant};
 

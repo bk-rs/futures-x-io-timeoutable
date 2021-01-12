@@ -53,7 +53,7 @@ impl<R: AsyncRead + ?Sized + Unpin> Future for ReadWithTimeout<'_, R> {
         let this = &mut *self;
 
         // https://github.com/tokio-rs/tokio/blob/tokio-1.0.1/tokio/src/io/util/read.rs#L51-L53
-        let mut buf = tokio::io::ReadBuf::new(this.buf);
+        let mut buf = futures_x_io::ReadBuf::new(this.buf);
         let poll_ret = Pin::new(&mut this.reader).poll_read(cx, &mut buf);
 
         match poll_ret {
