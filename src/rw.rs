@@ -67,7 +67,7 @@ impl<R: AsyncRead + ?Sized + Unpin> Future for ReadWithTimeout<'_, R> {
         }
     }
 
-    #[cfg(not(feature = "tokio_io"))]
+    #[cfg(any(feature = "futures_io", feature = "tokio02_io"))]
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = &mut *self;
 
