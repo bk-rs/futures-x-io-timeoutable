@@ -18,7 +18,6 @@ tokio02_io = ["futures-x-io/tokio02_io"]
 tokio_io = ["futures-x-io/tokio_io", "tokio"]
 
 [dependencies]
-cfg-if = { version = "1.0", default-features = false, features = [] }
 futures-timer = { version = "3.0", default-features = false, features = [] }
 
 futures-x-io = { version = "0.2", default-features = false, features = [], optional = true }

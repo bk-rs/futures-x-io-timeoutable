@@ -10,11 +10,13 @@
 ## Dev
 
 ```
-cargo clippy --all-targets --all-features -- -D clippy::all && \
+cargo +nightly clippy --all-targets --all-features -- -D clippy::all && \
 cargo fmt --all -- --check
 ```
 
 ```
-╰─➤ cargo test-all-features 2>/dev/null | grep 'test rw_' | grep ' ... ok' | wc -l
+cargo build-all-features
+
+╰─➤ cargo test-all-features -- --nocapture 2>/dev/null | grep 'test rw_' | grep ' ... ok' | wc -l
 3
 ```
