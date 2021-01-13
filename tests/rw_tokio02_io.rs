@@ -9,7 +9,6 @@ mod rw_tokio02_io_tests {
 
     use tokio02::net::{TcpListener, TcpStream};
     use tokio02::runtime::Runtime;
-    use tokio02::stream::StreamExt;
 
     use futures_x_io_timeoutable::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
 
@@ -21,11 +20,7 @@ mod rw_tokio02_io_tests {
             let addr = listener.local_addr()?;
 
             let mut tcp_stream_c = TcpStream::connect(addr).await?;
-            let mut tcp_stream_s = listener
-                .incoming()
-                .next()
-                .await
-                .expect("Get next incoming failed")?;
+            let (mut tcp_stream_s, _) = listener.accept().await.expect("Accept failed");
 
             tcp_stream_s
                 .write_with_timeout(b"foo", Duration::from_secs(1))

@@ -26,7 +26,7 @@ futures-x-io = { version = "0.2.2", default-features = false, features = [], opt
 futures-lite = { version = "1.11", default-features = false, features = [] }
 async-io = { version = "1.3", default-features = false, features = [] }
 
-tokio02 = { version = "~0.2", default-features = false, features = ["net", "stream"], package = "tokio" }
+tokio02 = { version = "~0.2", default-features = false, features = ["net"], package = "tokio" }
 tokio = { version = "1.0", default-features = false, features = ["net", "rt-multi-thread"] }
 
 [workspace]
