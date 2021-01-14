@@ -8,7 +8,7 @@ use std::time::Duration;
 
 use futures_timer::Delay;
 
-use futures_x_io::{AsyncRead, AsyncWrite};
+use super::{async_read_poll, AsyncRead, AsyncWrite};
 
 //
 //
@@ -49,41 +49,10 @@ impl<'a, R: AsyncRead + ?Sized + Unpin> ReadWithTimeout<'a, R> {
 impl<R: AsyncRead + ?Sized + Unpin> Future for ReadWithTimeout<'_, R> {
     type Output = io::Result<usize>;
 
-    #[cfg(feature = "tokio_io")]
-    fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-        // ref https://github.com/tokio-rs/tokio/blob/tokio-1.0.1/tokio/src/io/util/read.rs#L51-L53
-
-        let this = &mut *self;
-
-        let mut buf = futures_x_io::tokio_io::ext::ReadBuf::new(this.buf);
-        let poll_ret = Pin::new(&mut this.reader).poll_read(cx, &mut buf);
-
-        match poll_ret {
-            Poll::Ready(_) => Poll::Ready(Ok(buf.filled().len())),
-            Poll::Pending => match Pin::new(&mut this.delay).poll(cx) {
-                Poll::Ready(_) => {
-                    Poll::Ready(Err(io::Error::new(io::ErrorKind::TimedOut, "read timeout")))
-                }
-                Poll::Pending => Poll::Pending,
-            },
-        }
-    }
-
-    #[cfg(any(feature = "futures_io", feature = "tokio02_io"))]
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = &mut *self;
 
-        let poll_ret = Pin::new(&mut this.reader).poll_read(cx, this.buf);
-
-        match poll_ret {
-            Poll::Ready(ret) => Poll::Ready(ret),
-            Poll::Pending => match Pin::new(&mut this.delay).poll(cx) {
-                Poll::Ready(_) => {
-                    Poll::Ready(Err(io::Error::new(io::ErrorKind::TimedOut, "read timeout")))
-                }
-                Poll::Pending => Poll::Pending,
-            },
-        }
+        async_read_poll(&mut this.reader, &mut this.buf, &mut this.delay, cx)
     }
 }
 

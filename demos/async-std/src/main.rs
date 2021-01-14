@@ -7,7 +7,7 @@ use std::time::Duration;
 
 use async_std::io::Cursor;
 
-use futures_x_io_timeoutable::futures_io_rw::AsyncReadWithTimeoutExt;
+use futures_x_io_timeoutable::futures_io::rw::AsyncReadWithTimeoutExt;
 
 #[async_std::main]
 async fn main() -> io::Result<()> {
