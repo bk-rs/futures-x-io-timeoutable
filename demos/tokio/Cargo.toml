@@ -5,5 +5,5 @@ authors = ["vkill <vkill.net@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-futures-x-io-timeoutable = { path = "../..", version = "0.2", features = ["tokio_io"] }
+futures-x-io-timeoutable = { path = "../..", version = "0.3", features = ["tokio_io"] }
 tokio = { version = "1.0", default-features = false, features = ["macros", "rt-multi-thread"] }
