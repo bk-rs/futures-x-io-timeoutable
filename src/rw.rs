@@ -7,6 +7,7 @@ use std::task::{Context, Poll};
 use std::time::Duration;
 
 use futures_timer::Delay;
+
 use futures_x_io::{AsyncRead, AsyncWrite};
 
 //
@@ -50,10 +51,11 @@ impl<R: AsyncRead + ?Sized + Unpin> Future for ReadWithTimeout<'_, R> {
 
     #[cfg(feature = "tokio_io")]
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+        // ref https://github.com/tokio-rs/tokio/blob/tokio-1.0.1/tokio/src/io/util/read.rs#L51-L53
+
         let this = &mut *self;
 
-        // https://github.com/tokio-rs/tokio/blob/tokio-1.0.1/tokio/src/io/util/read.rs#L51-L53
-        let mut buf = futures_x_io::ReadBuf::new(this.buf);
+        let mut buf = futures_x_io::tokio_io::ext::ReadBuf::new(this.buf);
         let poll_ret = Pin::new(&mut this.reader).poll_read(cx, &mut buf);
 
         match poll_ret {

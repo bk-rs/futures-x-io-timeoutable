@@ -6,7 +6,7 @@ use std::io;
 use std::io::Cursor;
 use std::time::Duration;
 
-use futures_x_io_timeoutable::AsyncReadWithTimeoutExt;
+use futures_x_io_timeoutable::tokio_io_rw::AsyncReadWithTimeoutExt;
 
 #[tokio::main]
 async fn main() -> io::Result<()> {

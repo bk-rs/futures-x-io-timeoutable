@@ -1,22 +1,37 @@
 #[cfg(all(
     not(feature = "futures_io"),
-    not(feature = "tokio02_io"),
-    feature = "tokio_io"
+    any(feature = "tokio02_io", feature = "tokio_io")
 ))]
 mod rw_tokio_io_tests {
     use std::io;
     use std::time::{Duration, Instant};
 
-    use tokio::net::{TcpListener, TcpStream};
-    use tokio::runtime::Runtime;
+    #[cfg(all(not(feature = "tokio02_io"), feature = "tokio_io"))]
+    use tokio::{
+        net::{TcpListener, TcpStream},
+        runtime::Runtime,
+    };
+    #[cfg(all(feature = "tokio02_io", not(feature = "tokio_io")))]
+    use tokio02::{
+        net::{TcpListener, TcpStream},
+        runtime::Runtime,
+    };
 
     use futures_x_io_timeoutable::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
 
     #[test]
     fn simple() -> io::Result<()> {
+        #[cfg(all(not(feature = "tokio02_io"), feature = "tokio_io"))]
         let rt = Runtime::new().unwrap();
+        #[cfg(all(feature = "tokio02_io", not(feature = "tokio_io")))]
+        let mut rt = Runtime::new().unwrap();
+
         rt.block_on(async {
+            #[cfg(all(not(feature = "tokio02_io"), feature = "tokio_io"))]
             let listener = TcpListener::bind("127.0.0.1:0").await?;
+            #[cfg(all(feature = "tokio02_io", not(feature = "tokio_io")))]
+            let mut listener = TcpListener::bind("127.0.0.1:0").await?;
+
             let addr = listener.local_addr()?;
 
             let mut tcp_stream_c = TcpStream::connect(addr).await?;
