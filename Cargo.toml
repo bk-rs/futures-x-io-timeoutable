@@ -15,14 +15,19 @@ readme = "README.md"
 [features]
 # default = ["futures_io"]
 
-futures_io = ["futures-x-io/futures_io"]
-tokio02_io = ["futures-x-io/tokio02_io"]
-tokio_io = ["futures-x-io/tokio_io"]
+futures_io = ["futures-x-io/futures_io", "futures-timer"]
+tokio02_io = ["futures-x-io/tokio02_io", "tokio02/time"]
+tokio_io = ["futures-x-io/tokio_io", "tokio/time", "pin-project-lite"]
 
 [dependencies]
-futures-timer = { version = "3.0", default-features = false, features = [] }
+futures-timer = { version = "3.0", default-features = false, features = [], optional = true }
 
 futures-x-io = { version = "0.3", default-features = false, features = [], optional = true }
+
+tokio02 = { version = "~0.2", default-features = false, features = [], package = "tokio", optional = true }
+tokio = { version = "1.0", default-features = false, features = [], optional = true }
+
+pin-project-lite = { version = "0.2", optional = true }
 
 [dev-dependencies]
 futures-lite = { version = "1.11", default-features = false, features = [] }

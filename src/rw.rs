@@ -6,9 +6,7 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 use std::time::Duration;
 
-use futures_timer::Delay;
-
-use super::{async_read_poll, AsyncRead, AsyncWrite};
+use super::{async_read_poll, async_write_poll, AsyncRead, AsyncWrite, Delay};
 
 //
 //
@@ -98,17 +96,7 @@ impl<W: AsyncWrite + ?Sized + Unpin> Future for WriteWithTimeout<'_, W> {
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = &mut *self;
-        let poll_ret = Pin::new(&mut this.writer).poll_write(cx, this.buf);
 
-        match poll_ret {
-            Poll::Ready(ret) => Poll::Ready(ret),
-            Poll::Pending => match Pin::new(&mut this.delay).poll(cx) {
-                Poll::Ready(_) => Poll::Ready(Err(io::Error::new(
-                    io::ErrorKind::TimedOut,
-                    "write timeout",
-                ))),
-                Poll::Pending => Poll::Pending,
-            },
-        }
+        async_write_poll(&mut this.writer, &this.buf, &mut this.delay, cx)
     }
 }
