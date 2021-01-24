@@ -88,3 +88,13 @@ fn async_write_poll<W: AsyncWrite + ?Sized + Unpin>(
 
 #[path = "rw.rs"]
 pub mod rw;
+
+//
+use std::time::Duration;
+
+pub async fn sleep(dur: Duration) {
+    tokio::time::sleep(dur).await
+}
+
+#[path = "time.rs"]
+pub mod time;

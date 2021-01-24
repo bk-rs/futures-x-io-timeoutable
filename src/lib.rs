@@ -21,36 +21,27 @@ pub mod tokio_io;
     not(feature = "tokio02_io"),
     not(feature = "tokio_io")
 ))]
-pub use self::futures_io::rw;
-#[cfg(all(
-    feature = "futures_io",
-    not(feature = "tokio02_io"),
-    not(feature = "tokio_io")
-))]
-pub use self::futures_io::rw::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
+pub use self::futures_io::{
+    rw::{self, AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt},
+    time::{self, sleep},
+};
 
 #[cfg(all(
     not(feature = "futures_io"),
     feature = "tokio02_io",
     not(feature = "tokio_io")
 ))]
-pub use self::tokio02_io::rw;
-#[cfg(all(
-    not(feature = "futures_io"),
-    feature = "tokio02_io",
-    not(feature = "tokio_io")
-))]
-pub use self::tokio02_io::rw::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
+pub use self::tokio02_io::{
+    rw::{self, AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt},
+    time::{self, sleep},
+};
 
 #[cfg(all(
     not(feature = "futures_io"),
     not(feature = "tokio02_io"),
     feature = "tokio_io"
 ))]
-pub use self::tokio_io::rw;
-#[cfg(all(
-    not(feature = "futures_io"),
-    not(feature = "tokio02_io"),
-    feature = "tokio_io"
-))]
-pub use self::tokio_io::rw::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
+pub use self::tokio_io::{
+    rw::{self, AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt},
+    time::{self, sleep},
+};

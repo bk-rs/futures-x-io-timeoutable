@@ -17,7 +17,8 @@ mod rw_tokio_io_tests {
         runtime::Runtime,
     };
 
-    use futures_x_io_timeoutable::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
+    use futures_x_io_timeoutable::rw::AsyncWriteWithTimeoutExt;
+    use futures_x_io_timeoutable::AsyncReadWithTimeoutExt;
 
     #[test]
     fn simple() -> io::Result<()> {

@@ -11,7 +11,8 @@ mod rw_futures_io_tests {
     use async_io::Async;
     use futures_lite::future::block_on;
 
-    use futures_x_io_timeoutable::{AsyncReadWithTimeoutExt, AsyncWriteWithTimeoutExt};
+    use futures_x_io_timeoutable::rw::AsyncWriteWithTimeoutExt;
+    use futures_x_io_timeoutable::AsyncReadWithTimeoutExt;
 
     #[test]
     fn simple() -> io::Result<()> {
