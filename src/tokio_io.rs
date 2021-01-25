@@ -71,6 +71,7 @@ fn async_write_poll<W: AsyncWrite + ?Sized + Unpin>(
     match poll_ret {
         Poll::Ready(ret) => Poll::Ready(ret),
         Poll::Pending => {
+            // ref https://github.com/tokio-rs/tokio/blob/tokio-1.1.0/tokio/src/macros/pin.rs#L127-L134
             #[allow(unused_mut)]
             let mut delay = delay;
             #[allow(unused_mut)]
@@ -88,13 +89,3 @@ fn async_write_poll<W: AsyncWrite + ?Sized + Unpin>(
 
 #[path = "rw.rs"]
 pub mod rw;
-
-//
-use std::time::Duration;
-
-pub async fn sleep(dur: Duration) {
-    tokio::time::sleep(dur).await
-}
-
-#[path = "time.rs"]
-pub mod time;
